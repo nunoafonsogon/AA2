@@ -6,47 +6,74 @@ Created on Fri Apr 10 16:09:43 2020
 """
 
 ################ IMPORTS
-import numpy as np
+import numpy as np 
+import pandas as pd 
+from PIL import Image
+import matplotlib.pyplot as plt
+import warnings
+from keras.utils.np_utils import to_categorical
+from sklearn.model_selection import train_test_split
+from keras.utils import np_utils
 from keras.models import Sequential
 from keras.layers import Dense
-import matplotlib.pyplot as plt
-from sklearn.datasets import load_files
-from sklearn.model_selection import train_test_split
-from keras.preprocessing.image import array_to_img, img_to_array, load_img
-from keras import backend as K
-K.common.set_image_dim_ordering('th')
+from keras.layers import Flatten
 
 
-################ LOAD DATASET
-
-def load_dataset(path):
-    data = load_files(path)
-    files = np.array(data['filenames'])
-    targets = np.array(data['target'])
-    target_labels = np.array(data['target_names'])
-    return files,targets,target_labels
-def convert_image_to_array(files):
-    images_as_array=[]
-    for file in files:
-        # Convert to Numpy Array
-        images_as_array.append(img_to_array(load_img(file)))
-    return images_as_array
-
-path=  r'C:\Users\Nuno\Desktop\cell_images'
-x, y,target_labels = load_dataset(path)
-x = np.array(convert_image_to_array(x))
-print(x[1].shape)
-num_pixels = x[1].shape[1] * x[1].shape[2] *x[1].shape[0]
+import os
+print(os.listdir(r"C:\Users\Nuno\Desktop\trabalhoAA2\input"))
 
 
-x = x.astype('float32')
-X = X / 255.0
 
-print(x)
-#X_train, X_test, y_train, y_test = train_test_split( x, y, test_size=0.33, random_state=42)
+################################ LER DADOS
 
-################### 
-###################
+parasitized = os.listdir(r"C:\Users\Nuno\Desktop\trabalhoAA2\input\cell_images\Parasitized")
+uninfected = os.listdir(r"C:\Users\Nuno\Desktop\trabalhoAA2\input\cell_images\Uninfected")
+parasitized.remove("Thumbs.db") #
+uninfected.remove("Thumbs.db")  # 
+
+tamanho=50 # Tamanho da imagem se tamanho =50 entao resize para 50X50
+
+parasitized_images = []
+for p in parasitized:
+    img = Image.open(r"C:\Users\Nuno\Desktop\trabalhoAA2\input\cell_images\Parasitized\\"+p)
+    img = img.resize((tamanho,tamanho))
+    parasitized_images.append(img)
+
+uninfected_images = []
+for u in uninfected:
+    img = Image.open(r"C:\Users\Nuno\Desktop\trabalhoAA2\input\cell_images\Uninfected\\"+u)
+    img = img.resize((tamanho,tamanho))
+    uninfected_images.append(img)
+    
+
+######################## PREPARAR DADOS
+
+
+### juntar as duas pastas de imagens na variavel x
+x_array = np.empty((len(parasitized_images)+len(uninfected_images), tamanho, tamanho, 3))
+x_array = x_array.astype(int)
+index = 0
+for i in range(x_array.shape[0]):
+    if i < len(parasitized_images):
+        x_array[i] = np.array(parasitized_images[i])
+    else:
+        x_array[i] = np.array(uninfected_images[index])
+        index += 1
+
+# criar variavel y
+y_array = np.append(np.ones(len(parasitized_images)), np.zeros(len(uninfected_images)))
+y_array = to_categorical(y_array, num_classes = 2)
+
+
+# dar split ao dataset para ter variaveis de treino e de teste
+test_size=0.2
+x_train, x_test, y_train, y_test = train_test_split(x_array, y_array, random_state = 42, test_size = test_size)
+print("x_train shape: ",x_train.shape)
+print("x_test shape: ",x_test.shape)
+print("y_train shape: ",y_train.shape)
+print("y_test shape: ",y_test.shape)
+##################### Graficos bonitos
+
 def print_history_accuracy(history):
     print(history.history.keys())
     plt.plot(history.history['accuracy'])
@@ -56,14 +83,39 @@ def print_history_accuracy(history):
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
     plt.show()
-def create_compile_model_mlp(num_pixels, num_classes):
+
+##################### MLP
+
+def model_mlp(num_pixels):
     model = Sequential()
     model.add(Dense(num_pixels, input_dim=num_pixels, kernel_initializer='normal',
                     activation='relu'))
-    model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
+    model.add(Dense(2, kernel_initializer='normal', activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
+def mlp(x_train,y_train,x_test,y_test):
+    num_pixels=x_train.shape[1] * x_train.shape[2]*x_train.shape[3]
+    print(x_train.shape)
+    x_train = x_train.reshape(x_train.shape[0], num_pixels).astype('float32')
+    x_test = x_test.reshape(x_test.shape[0], num_pixels).astype('float32')
+    print(x_train.shape)
+
+    x_train = x_train / 255
+    x_test = x_test / 255
+
+    model = model_mlp(num_pixels)
+    print(model.summary())
+    history=model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=3, batch_size=32,
+                      verbose=2)
+    print_history_accuracy(history)
+    scores = model.evaluate(x_test, y_test, verbose=0)
+    print('Scores: ', scores)
+    print("Erro modelo MLP: %.2f%%" % (100-scores[1]*100))
+    
+    
+mlp(x_train,y_train,x_test,y_test)
+#################### CNN
 
 
 
