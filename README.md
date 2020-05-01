@@ -47,6 +47,7 @@ A arquitetura do modelo não se encontra representada neste ficheiro devido ao s
 O modelo que obteu melhor resultados foi o modelo CNN. Este resultado era esperado devido a:
 
 1- ser um método especializado em imagens ao contrário do método MLP
+
 2- ter um dataset extenso podendo superar a aprendizagem de Transfer Learning
 
 
