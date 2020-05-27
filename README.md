@@ -31,7 +31,7 @@ Em baixo podemos ver a arquitetura do modelo e o seu desempenho através de 100 
 
 # CNN
 Como era de esperar o modelo com melhor desempenho foi este tendo uma accuraccy superior a 95% como pode ser observado na figura 4.
-Este modelo chega rapidamente a 95% de desempenho e sobe ligeiramente em cada época tendo sido observado accuraccys até 98%.
+Este modelo chega rapidamente a 95% de desempenho e sobe ligeiramente em cada época tendo sido observado accuraccys até 99%.
 Considera-se este um resultado excelente visto a sua taxa de sucesso quase total.
 
 ![Image description](https://github.com/nunoafonsogon/AA2/blob/master/images/CNN_arq.png)
@@ -43,7 +43,7 @@ Considera-se este um resultado excelente visto a sua taxa de sucesso quase total
 
 Como esperado CNN transfer Learning não superou o resultado de CNN normal, 
 este resultado não foi surpreendente devido à quantidade elevada de elementos no dataset utilizado. 
-No entanto como podemos ver na figura 5 que a accuracy máxima obtida ronda 75%, apesar da grande oscilação entre épocas, este resultado mostra-se insatisfatório visto que uma rede muito mais simples a MLP obteve 70% de accuracy constantemente.
+No entanto como podemos ver na figura 5 que a accuracy máxima obtida ronda 95%, apesar da grande oscilação entre épocas, este resultado mostra-se insatisfatório visto que uma rede muito mais simples a CNN obteve 99% de accuracy constantemente.
 
 É de notar que este modelo foi treinado para distinguir objetos através do dataset imagenet. 
 A arquitetura do modelo não se encontra representada neste ficheiro devido ao seu tamanho no entanto pode ser consultada no notebook python correspondente.
