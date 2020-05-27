@@ -9,9 +9,16 @@ Foram escolhidos 3 métodos para resolver o problema proposto, estes métodos s�
 
 Como segundo objetivo serão comparados os diferentes métodos escolhidos.
 
+# Análise do Dataset
+- O Dataset é formado por 27558 imagens.
+- O Dataset está dividido em 2 partes iguais: 13780 infetados e 13780 não infetados.
+- Altura  de imagem oscila entre 40 e 385
+- Largura de imagem oscila entre 46 e 394
+
+
 # MLP
 Com o modelo MLP conseguimos obter uma accuracy de 70%, considerando que uma escolha aleatória obteria uma média a rondar os 50% 
-e que este método não é o mais adequado para imagens consideramos que 70% seja um bom resultado para este método. 
+e que este método não é o mais adequado para imagens consideramos que 70% seja um bom resultado para este método. Utilizaremos este resultado como baseline para os métodos apresentados à frente.
 
 Notou-se que uma quanto maior a imagem e consequentemente a camada de entrada pior o desempenho do modelo,
 testando a função resize() nas imagens do dataset obteve-se melhor desempenho com o tamanho 28 por 28.
@@ -36,7 +43,7 @@ Considera-se este um resultado excelente visto a sua taxa de sucesso quase total
 
 Como esperado CNN transfer Learning não superou o resultado de CNN normal, 
 este resultado não foi surpreendente devido à quantidade elevada de elementos no dataset utilizado. 
-No entanto como podemos ver na figura 5 que a accuracy máxima obtida ronda 25%, apesar da grande oscilação entre épocas.
+No entanto como podemos ver na figura 5 que a accuracy máxima obtida ronda 75%, apesar da grande oscilação entre épocas, este resultado mostra-se insatisfatório visto que uma rede muito mais simples a MLP obteve 70% de accuracy constantemente.
 
 É de notar que este modelo foi treinado para distinguir objetos através do dataset imagenet. 
 A arquitetura do modelo não se encontra representada neste ficheiro devido ao seu tamanho no entanto pode ser consultada no notebook python correspondente.
