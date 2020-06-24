@@ -53,7 +53,7 @@ Considera-se este um resultado excelente visto a sua taxa de sucesso quase total
 
 Como esperado CNN transfer Learning não superou o resultado de CNN normal, 
 este resultado não foi surpreendente devido à quantidade elevada de elementos no dataset utilizado. 
-No entanto como podemos ver na figura 5 que a accuracy máxima obtida ronda 95%, apesar da grande oscilação entre épocas, este resultado mostra-se insatisfatório visto que uma rede muito mais simples a CNN obteve 99% de accuracy constantemente.
+No entanto como podemos ver na figura 5 que a accuracy máxima obtida ronda 95%, apesar da grande oscilação entre épocas, este resultado mostra-se insatisfatório visto que uma rede muito mais simples a CNN obteve perto de 99% de accuracy.
 
 É de notar que este modelo foi treinado para distinguir objetos através do dataset imagenet. 
 A arquitetura do modelo não se encontra representada neste ficheiro devido ao seu tamanho no entanto pode ser consultada no notebook python correspondente.
