@@ -25,6 +25,8 @@ Como segundo objetivo serão comparados os diferentes métodos escolhidos.
 - Altura  de imagem oscila entre 40 e 385
 - Largura de imagem oscila entre 46 e 394
 
+A análise deste dataset foi feita no seguinte [script](https://github.com/nunoafonsogon/AA2/blob/master/Analise_do%20_dataset.ipynb)
+
 
 ### MLP
 Com o modelo MLP conseguimos obter uma accuracy de 70%, considerando que uma escolha aleatória obteria uma média a rondar os 50% 
